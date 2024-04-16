@@ -1,0 +1,84 @@
+# Copyright 2023 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+project_id                         = "your-project-id"
+region                             = "your-region"
+prefix                             = "your-prefix"
+deletion_protection                = true
+create_artifact_registry           = true
+create_perf_testing_infrastructure = true
+
+tpu_node_pools = {
+  tpu-v4-8-node-pool = {
+    zones    = ["your_zone_1"]
+    tpu_type = "v5litepod-4"
+  }
+}
+
+cpu_node_pools = {
+
+  saxml-admin-node-pool = {
+    zones          = ["your_zones"]
+    min_node_count = 1
+    max_node_count = 1
+    machine_type   = "n1-standard-8"
+    disk_size_gb   = 100
+    taints = {
+      saxml-admin-node-pool = {
+        value  = true
+        effect = "NO_SCHEDULE"
+      }
+    }
+    labels = {
+      saxml-admin-node-pool = true
+    }
+  }
+
+  default-node-pool = {
+    zones          = ["your_zones"]
+    min_node_count = 1
+    max_node_count = 3
+    machine_type   = "n1-standard-8"
+    disk_size_gb   = 200
+    taints         = {}
+    labels         = {}
+  }
+
+  large-workloads-node-pool = {
+    zones          = ["your_zones"]
+    min_node_count = 0
+    max_node_count = 3
+    machine_type   = "n2-highmem-32"
+    disk_size_gb   = 500
+    taints         = {}
+    labels         = {}
+  }
+
+  saxml-proxy-node-pool = {
+    zones          = ["your_zones"]
+    min_node_count = 1
+    max_node_count = 3
+    machine_type   = "n1-standard-8"
+    disk_size_gb   = 100
+    taints = {
+      saxml-proxy-node-pool = {
+        value  = true
+        effect = "NO_SCHEDULE"
+      }
+    }
+    labels = {
+      saxml-proxy-node-pool = true
+    }
+  }
+}
